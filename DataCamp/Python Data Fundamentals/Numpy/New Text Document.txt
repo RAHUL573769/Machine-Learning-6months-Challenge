@@ -100,3 +100,9 @@ print(np_weight_lb[50])
 
 # Print out sub-array of np_height_in: index 100 up to and including index 110
 print(np_height_in[100:111])
+
+---------------
+
+# Extract trunk diameters information and sort from smallest to largest
+sorted_trunk_diameters = np.sort(tree_census[:, 2])
+print(sorted_trunk_diameters)
