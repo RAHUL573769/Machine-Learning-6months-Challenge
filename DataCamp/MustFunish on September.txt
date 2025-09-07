@@ -1,6 +1,8 @@
-Machine Learning Engineer  https://app.datacamp.com/learn/career-tracks/machine-learning-engineer
 Python Developer  https://app.datacamp.com/learn/career-tracks/python-programmer
-Machine Learning Scientist in Python https://app.datacamp.com/learn/career-tracks/machine-learning-scientist-with-python
 Associate Python Developer https://app.datacamp.com/learn/career-tracks/associate-python-developer
-Data Analyst in Python https://app.datacamp.com/learn/career-tracks/data-analyst-with-python
 Data Engineer in Python https://app.datacamp.com/learn/career-tracks/data-engineer-in-python
+Data Analyst in Python https://app.datacamp.com/learn/career-tracks/data-analyst-with-python
+
+Machine Learning Engineer  https://app.datacamp.com/learn/career-tracks/machine-learning-engineer
+
+Machine Learning Scientist in Python https://app.datacamp.com/learn/career-tracks/machine-learning-scientist-with-python
