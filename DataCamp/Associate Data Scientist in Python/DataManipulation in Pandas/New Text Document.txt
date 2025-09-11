@@ -322,3 +322,201 @@ print(sales_stats)
 unemp_fuel_stats = sales.groupby("type")[["unemployment", "fuel_price_usd_per_l"]].agg(["min", "max", "mean", "median"])
 print(unemp_fuel_stats)
 
+-----------------------------
+# Pivot for mean weekly_sales for each store type
+mean_sales_by_type = sales.pivot_table(values="weekly_sales" ,index="type", )
+
+# Print mean_sales_by_type
+print(mean_sales_by_type)
+--------------
+# Pivot for mean and median weekly_sales for each store type
+mean_med_sales_by_type = sales.pivot_table(values="weekly_sales",index="type", aggfunc=['mean','median'])
+
+# Print mean_med_sales_by_type
+print(mean_med_sales_by_type)
+-------------
+# Pivot for mean weekly_sales by store type and holiday 
+mean_sales_by_type_holiday = sales.pivot_table(values="weekly_sales", index="type", columns="is_holiday")
+
+# Print mean_sales_by_type_holiday
+print(mean_sales_by_type_holiday)
+------------------
+# Print mean weekly_sales by department and type; fill missing values with 0
+print(sales.pivot_table(values="weekly_sales", index="type", columns="department", fill_value=0))
+------------
+# Print the mean weekly_sales by department and type; fill missing values with 0s; sum all rows and cols
+print(sales.pivot_table(values="weekly_sales", index="department", columns="type", fill_value=0, margins=True))
+
+------------------
+# Look at temperatures
+print(temperatures)
+
+# Set the index of temperatures to city
+temperatures_ind = temperatures.set_index("city")
+
+# Look at temperatures_ind
+print(temperatures_ind)
+
+# Reset the temperatures_ind index, keeping its contents
+print(temperatures_ind.reset_index())
+
+# Reset the temperatures_ind index, dropping its contents
+print(temperatures_ind.reset_index(drop=True))
+-----------------
+Without an index, subsetting takes the form df[df["column"].isin(values)].
+With an index, subsetting takes the form df_ind.loc[values]
+# Make a list of cities to subset on
+cities = ["London", "Paris"]
+
+# Subset temperatures using square brackets
+print(temperatures[temperatures["city"].isin(cities)])
+
+# Subset temperatures_ind using .loc[]
+print(temperatures_ind.loc[cities])
+---------------
+Hint
+Call .set_index(), passing the two-column names as a list.
+Specify the rows to keep as a list of tuples: [("a", "b"), ("c", "d")].
+Call .loc[], passing in rows_to_keep.
+# Index temperatures by country & city
+temperatures_ind = temperatures.set_index(["country", "city"])
+
+# List of tuples: Brazil, Rio De Janeiro & Pakistan, Lahore
+rows_to_keep = [("Brazil", "Rio De Janeiro"), ("Pakistan", "Lahore")]
+
+# Subset for rows to keep
+print(temperatures_ind.loc[rows_to_keep])
+--------------------
+Hint
+Call .sort_index() three times.
+In the most advanced case, you need to set level to a list of index level names and ascending to a list of Booleans.
+
+# Sort temperatures_ind by index values
+print(temperatures_ind.sort_index())
+
+# Sort temperatures_ind by index values at the city level
+print(temperatures_ind.sort_index(level="city"))
+
+# Sort temperatures_ind by country then descending city
+print(temperatures_ind.sort_index(level=["country", "city"], ascending = [True, False]))
+--------------------
+Sort the index of temperatures_ind.
+Use slicing with .loc[] to get these subsets:
+from Pakistan to Philippines.
+from Lahore to Manila. (This will return nonsense.)
+from Pakistan, Lahore to Philippines, Manila.
+
+# Sort the index of temperatures_ind
+temperatures_srt = temperatures_ind.sort_index()
+
+# Subset rows from Pakistan to Philippines
+print(temperatures_srt.loc["Pakistan":"Philippines"])
+
+# Try to subset rows from Lahore to Manila
+print(temperatures_srt.loc["Lahore":"Manila"])
+
+# Subset rows from Pakistan, Lahore to Philippines, Manila
+print(temperatures_srt.loc[("Pakistan", "Lahore"):("Philippines", "Manila")])
+----------------
+Use .loc[] slicing to subset rows from India, Hyderabad to Iraq, Baghdad.
+Use .loc[] slicing to subset columns from date to avg_temp_c.
+Slice in both directions at once from Hyderabad to Baghdad, and date to avg_temp_c.
+
+# Subset rows from India, Hyderabad to Iraq, Baghdad
+print(temperatures_srt.loc[("India", "Hyderabad"):("Iraq", "Baghdad")])
+
+# Subset columns from date to avg_temp_c
+print(temperatures_srt.loc[:, "date":"avg_temp_c"])
+
+# Subset in both directions at once
+print(temperatures_srt.loc[("India", "Hyderabad"):("Iraq", "Baghdad"), "date":"avg_temp_c"])
+-------------------------------------
+Use Boolean conditions, not .isin() or .loc[], and the full date "yyyy-mm-dd", to subset temperatures for rows where the date column is in 2010 and 2011 and print the results.
+Set the index of temperatures to the date column and sort it.
+Use .loc[] to subset temperatures_ind for rows in 2010 and 2011.
+Use .loc[] to subset temperatures_ind for rows from August 2010 to February 2011.
+
+
+
+# Use Boolean conditions to subset temperatures for rows in 2010 and 2011
+temperatures_bool = temperatures[(temperatures["date"] >= "2010-01-01") & 
+                                 (temperatures["date"] <= "2011-12-31")]
+print(temperatures_bool)
+
+# Set date as the index and sort the index
+temperatures_ind = temperatures.set_index("date").sort_index()
+
+# Use .loc[] to subset temperatures_ind for rows in 2010 and 2011
+print(temperatures_ind.loc["2010":"2011"])
+
+# Use .loc[] to subset temperatures_ind for rows from Aug 2010 to Feb 2011
+print(temperatures_ind.loc["2010-08":"2011-02"])
+------------------------------
+Use .iloc[] on temperatures to take subsets.
+
+Get the 23rd row, 2nd column (index positions 22 and 1).
+Get the first 5 rows (index positions 0 to 5).
+Get all rows, columns 3 and 4 (index positions 2 to 4).
+Get the first 5 rows, columns 3 and 4
+
+
+# Get 23rd row, 2nd column (index 22, 1)
+print(temperatures.iloc[22, 1])
+
+# Use slicing to get the first 5 rows (0 through 4)
+print(temperatures.iloc[0:5])
+
+# Use slicing to get all rows, columns 3 to 4 (index 2 through 3)
+print(temperatures.iloc[:, 2:4])
+
+# Use slicing in both directions at once (rows 0–4, columns 2–3)
+print(temperatures.iloc[0:5, 2:4])
+--------------------
+# Read CSV as DataFrame called airline_bumping
+airline_bumping = pd.read_csv("airline_bumping.csv")
+# Take a look at the DataFrame
+print(airline_bumping.head())
+-------------
+Read the CSV file "airline_bumping.csv" and store it as a DataFrame called airline_bumping.
+Print the first few rows of airline_bumping.
+
+# Read CSV as DataFrame called airline_bumping
+airline_bumping = pd.read_csv("airline_bumping.csv")
+# Take a look at the DataFrame
+print(airline_bumping.head())
+------------------
+For each airline group, select the nb_bumped, and total_passengers columns, and calculate the sum (for both years). Store this as airline_totals.
+
+# From previous step
+airline_bumping = pd.read_csv("airline_bumping.csv")
+print(airline_bumping.head())
+
+# For each airline, select nb_bumped and total_passengers and sum
+airline_totals = airline_bumping.groupby("airline")[
+    ["nb_bumped", "total_passengers"]
+].sum()
+---------------
+Create a new column of airline_totals called bumps_per_10k, which is the number of passengers bumped per 10,000 passengers in 2016 and 2017.
+
+# From previous steps
+airline_bumping = pd.read_csv("airline_bumping.csv")
+print(airline_bumping.head())
+airline_totals = airline_bumping.groupby("airline")[["nb_bumped", "total_passengers"]].sum()
+
+# Create new col, bumps_per_10k: no. of bumps per 10k passengers for each airline
+airline_totals["bumps_per_10k"] = airline_totals["nb_bumped"] / airline_totals["total_passengers"] * 10000
+
+----------------
+# From previous steps
+airline_bumping = pd.read_csv("airline_bumping.csv")
+print(airline_bumping.head())
+airline_totals = airline_bumping.groupby("airline")[["nb_bumped", "total_passengers"]].sum()
+airline_totals["bumps_per_10k"] = airline_totals["nb_bumped"] / airline_totals["total_passengers"] * 10000
+
+# Print airline_totals
+print(airline_totals.head())
+-----------------
+Sort airline_totals by the values of bumps_per_10k from highest to lowest, storing as airline_totals_sorted.
+Print your sorted DataFrame.
+Save the sorted DataFrame as a CSV called "airline_totals_sorted.csv"
+
