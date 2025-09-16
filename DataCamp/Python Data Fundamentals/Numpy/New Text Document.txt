@@ -106,3 +106,77 @@ print(np_height_in[100:111])
 # Extract trunk diameters information and sort from smallest to largest
 sorted_trunk_diameters = np.sort(tree_census[:, 2])
 print(sorted_trunk_diameters)
+---------------------------
+Using np.arange(), create a 1D array called one_to_ten which holds all integers from one to ten (inclusive).
+Create a scatterplot with doubling_array as the y values and one_to_ten as the x values.
+# Create an array of integers from one to ten
+one_to_ten = np.arange(1, 11)
+doubling_array = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+from matplotlib import pyplot as plt
+plt.scatter(one_to_ten,doubling_array)
+# Create your scatterplot
+
+plt.show()
+---------------
+Create a 3D array called game_and_solution by stacking the two 2D arrays, sudoku_game and sudoku_solution, on top of one another; in the final array, sudoku_game should appear before sudoku_solution.
+Print game_and_solution
+
+# Create the game_and_solution 3D array
+game_and_solution = np.array([sudoku_game,sudoku_solution])
+
+# Print game_and_solution
+print(game_and_solution) 
+---------------------
+# Create a second 3D array of another game and its solution 
+new_game_and_solution = np.array([new_sudoku_game,new_sudoku_solution])
+# Create a 4D array of both game and solution 3D arrays
+games_and_solutions = np.array([game_and_solution,new_game_and_solution])
+
+# Print the shape of your 4D array
+print(games_and_solutions.shape)
+--------------
+.flatten is an array method, called directly on the array to be flattened: array.flatten().
+
+# Flatten sudoku_game
+flattened_game = sudoku_game.flatten()
+
+# Print the shape of flattened_game
+print(flattened_game.shape)
+
+-------------
+# Flatten sudoku_game
+flattened_game = sudoku_game.flatten()
+
+# Print the shape of flattened_game
+print(flattened_game.shape)
+
+# Reshape flattened_game back to a nine by nine array
+reshaped_game = flattened_game.reshape(9,9)
+
+# Print sudoku_game and reshaped_game
+print(sudoku_game)
+print(reshaped_game)
+
+*------------------------
+Using np.zeros(), create an array of zeros that has three rows and two columns; call it zero_array.
+Print the data type of zero_array.
+
+# Create an array of zeros with three rows and two columns
+zero_array = np.zeros((3, 2))
+
+# Print the data type of zero_array
+print(zero_array.dtype)
+----------------
+.dtype is an attribute of NumPy arrays, and should be called on an array without parentheses following: array.dtype
+
+# Create an array of zeros with three rows and two columns
+zero_array = np.zeros((3, 2))
+
+# Print the data type of zero_array
+print(zero_array.dtype)
+
+# Create a new array of int32 zeros with three rows and two columns
+zero_int_array = np.zeros((3, 2), dtype=np.int32)
+
+# Print the data type of zero_int_array
+print(zero_int_array.dtype)
