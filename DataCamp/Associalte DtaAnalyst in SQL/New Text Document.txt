@@ -104,3 +104,145 @@ WHERE release_year BETWEEN 1990 AND 1999
 	AND language = 'English'
 -- Narrow it down to G, PG, and PG-13 certifications
 	AND certification IN ('G', 'PG', 'PG-13');
+
+-----------------
+-- Calculate the average gross of films that start with A
+SELECT AVG(gross) AS avg_gross_A
+FROM films
+WHERE title LIKE 'A%';
+---
+-- Calculate the lowest gross film in 1994
+SELECT MIN(gross) AS lowest_gross
+FROM films
+WHERE release_year = 1994;
+--------------------
+SELECT MAX(gross) AS highest_gross
+FROM films
+WHERE release_year BETWEEN 2000 AND 2012;
+---------------
+SELECT ROUND(AVG(facebook_likes), 1) AS avg_facebook_likes
+FROM films
+------------
+SELECT ROUND(AVG(budget), -3) AS avg_budget_thousands
+FROM films
+-----------------
+SELECT 
+  title, 
+  (duration / 60.0) AS duration_hours
+FROM films;
+-------------------
+-- Calculate the percentage of people who are no longer alive
+SELECT COUNT(deathdate) * 100.0 / COUNT(*) AS percentage_dead
+FROM people;
+-----------
+-- Find the number of decades in the films table
+SELECT (MAX(release_year) - MIN(release_year)) / 10.0 AS number_of_decades
+FROM films;
+------------
+-- Round duration_hours to two decimal places
+SELECT title, ROUND(duration / 60.0, 2) AS duration_hours
+FROM films;
+---------------
+-- Select name from people and sort alphabetically
+SELECT name
+FROM people
+ORDER BY name ASC
+
+---------
+-- Select the title and duration from longest to shortest film
+SELECT title, duration
+FROM films
+ORDER BY duration DESC;
+--------------
+-- Select the release year, duration, and title sorted by release year and duration
+SELECT release_year, duration, title
+FROM films
+ORDER BY release_year ASC, duration ASC;
+----------
+SELECT certification, release_year, title
+FROM films
+ORDER BY certification, release_year DESC;
+------------
+-- Select the certification, release year, and title sorted by certification and release year
+SELECT certification, release_year, title
+FROM films
+ORDER BY certification, release_year DESC;
+-------------
+SELECT release_year, COUNT(*) AS film_count
+FROM films
+GROUP BY release_year;
+--------------------
+-- Find the release_year and average duration of films for each year
+SELECT release_year, AVG(duration) AS avg_duration
+FROM films
+GROUP BY release_year;
+
+---------------
+Select the release_year, country, and the maximum budget aliased as max_budget for each year and each country; sort your results by release_year and country.
+-- Find the release_year, country, and max_budget, then group and order by release_year and country
+
+SELECT release_year, country, MAX(budget) AS max_budget
+FROM films
+GROUP BY release_year, country
+ORDER BY release_year ASC, country ASC;
+-------------
+Select country from the films table, and get the distinct count of certification aliased as certification_count.
+Group the results by country.
+Filter the unique count of certifications to only results greater than 10.
+
+SELECT country, COUNT(DISTINCT certification) AS certification_count
+FROM films
+GROUP BY country
+HAVING COUNT(DISTINCT certification) > 10;
+-------------
+Select the country and the average budget as average_budget, rounded to two decimal, from films.
+Group the results by country.
+Filter the results to countries with an average budget of more than one billion (1000000000).
+Sort by descending order of the average_budget
+
+SELECT country, ROUND(AVG(budget), 2) AS average_budget
+FROM films
+GROUP BY country
+HAVING AVG(budget) > 1000000000
+ORDER BY average_budget DESC;
+
+-------------------
+
+Select the release_year for each film in the films table, filter for records released after 1990, and group by release_year.
+
+
+SELECT release_year
+FROM films
+WHERE release_year > 1990
+GROUP BY release_year;
+---------------------
+-- Modify the query to also list the average budget and average gross
+SELECT release_year, 
+       AVG(budget) AS avg_budget, 
+       AVG(gross) AS avg_gross
+FROM films
+WHERE release_year > 1990
+GROUP BY release_year
+ORDER BY release_year ASC;
+--------------
+-- Modify the query to see only years with an avg_budget of more than 60 million
+
+SELECT release_year, AVG(budget) AS avg_budget, AVG(gross) AS avg_gross
+FROM films
+WHERE release_year > 1990
+GROUP BY release_year
+-- Modify the query to see only years with an avg_budget of more than 60 million
+HAVING AVG(budget) > 60000000;
+
+----------------
+Finally, order the results from the highest average gross and limit to one.
+
+
+SELECT release_year, AVG(budget) AS avg_budget, AVG(gross) AS avg_gross
+FROM films
+WHERE release_year > 1990
+GROUP BY release_year
+HAVING AVG(budget) > 60000000
+-- Order the results from highest to lowest average gross and limit to one
+ORDER BY avg_gross DESC
+LIMIT 1;
