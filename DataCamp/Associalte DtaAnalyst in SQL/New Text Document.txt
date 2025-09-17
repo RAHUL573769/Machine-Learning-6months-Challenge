@@ -246,3 +246,23 @@ HAVING AVG(budget) > 60000000
 -- Order the results from highest to lowest average gross and limit to one
 ORDER BY avg_gross DESC
 LIMIT 1;
+-------------------
+You'll find that in the cities table, the country code is country_code, but in the countries table, it's called code; therefore, you'll have to use the ON clause, because the USING command will not work
+
+
+SELECT * 
+FROM cities 
+-- Inner join to countries
+INNER JOIN countries
+-- Match on country codes
+ON cities.country_code = countries.code;
+
+----------------
+City name can be aliased with cities.name AS city; similar syntax can be applied to alias country names from countries.
+region can be selected from the countries table; it will work with or without specifying the table name since it only exists in one table.
+
+-- Select name fields (with alias) and region 
+SELECT cities.name AS city, countries.name AS country, region
+FROM cities
+INNER JOIN countries
+ON cities.country_code = countries.code;
